@@ -21,7 +21,23 @@ function asyncTimesTen(x, callBack) {
 
 // Create this function!
 function waterfall(arg, tasks, cb) {
-  cb(new Error('waterfall function not implemented'));
+  tasks[0](arg, function(error, result) {
+    if (error) {
+      cb(error, result);
+      return;
+    }
+
+    tasks[1](result, function(error, result) {
+      if (error) {
+        cb(error, result);
+        return;
+      }
+
+      tasks[2](result, function(error, result) {
+        cb(error, result);
+      });
+    });
+  });
 }
 
 waterfall(3, [
